@@ -19,12 +19,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4">
-        <EditText
-                android:id="@+id/etTag"
-                android:hint="@string/search_questions"
-                android:layout_width="match_parent"
-                android:inputType="text"
-                android:layout_height="wrap_content"/>
+            <EditText
+                    android:id="@+id/etTag"
+                    android:hint="@string/search_questions"
+                    android:layout_width="match_parent"
+                    android:inputType="text"
+                    android:layout_height="wrap_content"/>
         </android.support.design.widget.TextInputLayout>
         <Button
                 android:id="@+id/btnSearch"

@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_question.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adapter<QuestionAdapter.QuestionHolder>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): QuestionHolder {
@@ -18,20 +20,24 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
 
     override fun getItemCount() = questions.size
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onBindViewHolder(questionHolder: QuestionHolder, position: Int) {
 
         val currentQuestion = questions[position]
+        val unixSeconds: Long = currentQuestion.creation_date
+        val date = Date(unixSeconds * 1000L)
+        val jdf = SimpleDateFormat("yyyy-MM-dd")
+        val jdfDate: String = jdf.format(date)
         with(questionHolder.itemView) {
             tvTitle.text = currentQuestion.title
             tvScore.text = "Score" + currentQuestion.score.toString()
             tvNumberOfAnswer.text = "Number of Answers:" + currentQuestion.answer_count.toString()
-            tvAskedOn.text = currentQuestion.creation_date.toString()
+            tvAskedOn.text = jdfDate
             tvAskedBy.text = currentQuestion.owner.display_name
             com.squareup.picasso.Picasso.get()
                 .load(currentQuestion.owner.profile_image)
-//                .placeholder(R.drawable.loading)
-//                .error(R.drawable.loading_failed)
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.loading_failed)
                 .into(ivUser)
         }
         questionHolder.itemView.setOnClickListener {
@@ -40,7 +46,6 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
             i.data = Uri.parse(currentQuestion.link)
             questionHolder.itemView.context.startActivity(i)
         }
-
     }
 
     inner class QuestionHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
