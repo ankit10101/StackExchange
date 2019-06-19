@@ -13,7 +13,9 @@ import kotlinx.android.synthetic.main.item_question.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+// Custom QuestionAdapter for displaying list of questions in the recycler view
 class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adapter<QuestionAdapter.QuestionHolder>() {
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, p1: Int): QuestionHolder {
         val inflatedView = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_question, viewGroup, false)
@@ -26,22 +28,30 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
     override fun onBindViewHolder(questionHolder: QuestionHolder, position: Int) {
 
         val currentQuestion = questions[position]
+
+        //To convert given epoch time in seconds to yyyy-MM-dd format
         val unixSeconds: Long = currentQuestion.creation_date
         val date = Date(unixSeconds * 1000L)
         val jdf = SimpleDateFormat("yyyy-MM-dd")
         val jdfDate: String = jdf.format(date)
+
+        //Setting the data for the current question in the view as view is recycled
         with(questionHolder.itemView) {
             tvTitle.text = currentQuestion.title
             tvScore.text = context.getString(R.string.score) + currentQuestion.score.toString()
-            tvNumberOfAnswer.text = context.getString(R.string.number_of_answers) + currentQuestion.answer_count.toString()
+            tvNumberOfAnswer.text =
+                context.getString(R.string.number_of_answers) + currentQuestion.answer_count.toString()
             tvAskedOn.text = jdfDate
+            tvNumberOfViews.text = context.getString(R.string.number_of_views) + currentQuestion.view_count.toString()
             tvAskedBy.text = currentQuestion.owner.display_name
-            if(currentQuestion.answer_count > 0) {
+
+            //To decide if current question is answered or not
+            if (currentQuestion.answer_count > 0) {
                 tvAnswered.text = context.getString(R.string.answered)
-                tvAnswered.background.setColorFilter(Color.parseColor("#7CFC00"),PorterDuff.Mode.DARKEN)
-            }else{
+                tvAnswered.background.setColorFilter(Color.parseColor("#7CFC00"), PorterDuff.Mode.DARKEN)
+            } else {
                 tvAnswered.text = context.getString(R.string.not_answered)
-                tvAnswered.background.setColorFilter(Color.parseColor("#FF0000"),PorterDuff.Mode.DARKEN)
+                tvAnswered.background.setColorFilter(Color.parseColor("#FF0000"), PorterDuff.Mode.DARKEN)
             }
             com.squareup.picasso.Picasso.get()
                 .load(currentQuestion.owner.profile_image)

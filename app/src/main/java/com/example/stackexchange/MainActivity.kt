@@ -27,10 +27,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //To prevent keyboard from popping up by itself
         window.setSoftInputMode(
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         )
 
+        //Implementing Spinner
         spinner.onItemSelectedListener = this
         val categories = ArrayList<String>()
         categories.add("activity")
@@ -40,11 +42,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = dataAdapter
 
+        //Setting on click listener for Search button
         btnSearch.setOnClickListener {
             fetchQuestions(spinnerItem)
         }
     }
 
+    // Function to make the API call and fetch the questions related to the tag searched by the user
     private fun fetchQuestions(sortBy: String) {
         tag = etTag.text.toString()
         if (tag != "")
@@ -63,6 +67,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             override fun onResponse(call: Call, response: Response) {
                 val responseBody: ResponseBody? = response.body()
                 val result = responseBody?.string()
+                Log.e(javaClass.name,result)
                 val questionsResponse = gson.fromJson(result, QuestionResponse::class.java)
                 questionsList.addAll(questionsResponse.items)
                 runOnUiThread {
@@ -74,6 +79,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         rvQuestions.adapter = questionAdapter
     }
 
+    //Spinner Methods
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -83,6 +89,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         fetchQuestions(item)
     }
 
+    //To ensure app work correctly in both landscape and portrait mode
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putString("TAG", tag)

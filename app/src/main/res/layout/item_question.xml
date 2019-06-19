@@ -43,23 +43,30 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvScore"
                     android:textSize="15sp"/>
+
             <TextView
-                    android:layout_alignParentBottom="true"
+                    android:id="@+id/tvNumberOfViews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvNumberOfAnswer"
+                    android:textSize="15sp"/>
+
+            <TextView
                     android:id="@+id/tvAnswered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     android:padding="5dp"
+                    android:layout_alignParentBottom="true"
                     android:background="@drawable/view_rounded"/>
 
-
             <ImageView
-                    android:layout_below="@id/tvScore"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/ivUser"
                     android:layout_width="48dp"
-                    android:layout_height="48dp"/>
+                    android:layout_height="48dp"
+                    android:layout_below="@id/tvScore"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"/>
             <TextView
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"

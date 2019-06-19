@@ -1,7 +1,7 @@
 package com.example.stackexchange
 
 import java.util.*
-
+//Model Class for Question Response from API
 class QuestionResponse(var items: ArrayList<Question>)
 
 class Question(
