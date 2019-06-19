@@ -32,15 +32,15 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
         val jdfDate: String = jdf.format(date)
         with(questionHolder.itemView) {
             tvTitle.text = currentQuestion.title
-            tvScore.text = "Score: " + currentQuestion.score.toString()
-            tvNumberOfAnswer.text = "Number of Answers: " + currentQuestion.answer_count.toString()
+            tvScore.text = context.getString(R.string.score) + currentQuestion.score.toString()
+            tvNumberOfAnswer.text = context.getString(R.string.number_of_answers) + currentQuestion.answer_count.toString()
             tvAskedOn.text = jdfDate
             tvAskedBy.text = currentQuestion.owner.display_name
             if(currentQuestion.answer_count > 0) {
-                tvAnswered.text = "Answered"
+                tvAnswered.text = context.getString(R.string.answered)
                 tvAnswered.background.setColorFilter(Color.parseColor("#7CFC00"),PorterDuff.Mode.DARKEN)
             }else{
-                tvAnswered.text = "Not Answered"
+                tvAnswered.text = context.getString(R.string.not_answered)
                 tvAnswered.background.setColorFilter(Color.parseColor("#FF0000"),PorterDuff.Mode.DARKEN)
             }
             com.squareup.picasso.Picasso.get()
@@ -49,6 +49,7 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
                 .error(R.drawable.loading_failed)
                 .into(ivUser)
         }
+        //Tapping on the question open the question on StackOverflow
         questionHolder.itemView.setOnClickListener {
             val i = Intent()
             i.action = Intent.ACTION_VIEW

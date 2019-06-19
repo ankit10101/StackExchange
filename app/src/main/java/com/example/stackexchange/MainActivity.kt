@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,10 +21,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     val questionsList = ArrayList<Question>()
     val questionAdapter = QuestionAdapter(questionsList)
     lateinit var spinnerItem: String
+    lateinit var tag: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        window.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        )
 
         spinner.onItemSelectedListener = this
         val categories = ArrayList<String>()
@@ -38,8 +45,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    fun fetchQuestions(sortBy: String) {
-        val tag = etTag.text.toString()
+    private fun fetchQuestions(sortBy: String) {
+        tag = etTag.text.toString()
         if (tag != "")
             questionsList.clear()
         val client = OkHttpClient()
@@ -56,9 +63,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             override fun onResponse(call: Call, response: Response) {
                 val responseBody: ResponseBody? = response.body()
                 val result = responseBody?.string()
-                Log.e("TAG", result)
                 val questionsResponse = gson.fromJson(result, QuestionResponse::class.java)
-                Log.e("Question", questionsResponse.items[0].toString())
                 questionsList.addAll(questionsResponse.items)
                 runOnUiThread {
                     questionAdapter.notifyDataSetChanged()
@@ -78,4 +83,17 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         fetchQuestions(item)
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putString("TAG", tag)
+        outState?.putString("CATEGORY", spinnerItem)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        tag = savedInstanceState?.getString("TAG") ?: ""
+        etTag.setText(tag)
+        spinnerItem = savedInstanceState?.getString("CATEGORY") ?: "activity"
+        fetchQuestions(spinnerItem)
+    }
 }
