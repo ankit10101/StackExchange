@@ -2,6 +2,8 @@ package com.example.stackexchange
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -30,10 +32,17 @@ class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adap
         val jdfDate: String = jdf.format(date)
         with(questionHolder.itemView) {
             tvTitle.text = currentQuestion.title
-            tvScore.text = "Score" + currentQuestion.score.toString()
-            tvNumberOfAnswer.text = "Number of Answers:" + currentQuestion.answer_count.toString()
+            tvScore.text = "Score: " + currentQuestion.score.toString()
+            tvNumberOfAnswer.text = "Number of Answers: " + currentQuestion.answer_count.toString()
             tvAskedOn.text = jdfDate
             tvAskedBy.text = currentQuestion.owner.display_name
+            if(currentQuestion.answer_count > 0) {
+                tvAnswered.text = "Answered"
+                tvAnswered.background.setColorFilter(Color.parseColor("#7CFC00"),PorterDuff.Mode.DARKEN)
+            }else{
+                tvAnswered.text = "Not Answered"
+                tvAnswered.background.setColorFilter(Color.parseColor("#FF0000"),PorterDuff.Mode.DARKEN)
+            }
             com.squareup.picasso.Picasso.get()
                 .load(currentQuestion.owner.profile_image)
                 .placeholder(R.drawable.loading)
