@@ -4,7 +4,7 @@
     <string name="search_questions">Search Questions</string>
     <string name="answered">Answered</string>
     <string name="not_answered">Not Answered</string>
-    <string name="number_of_answers">Number of Answers: </string>
-    <string name="score">Score: </string>
-    <string name="number_of_views">Number of Views: </string>
+    <string name="number_of_answers">Number of Answers:</string>
+    <string name="score">Score:</string>
+    <string name="number_of_views">Number of Views:</string>
 </resources>

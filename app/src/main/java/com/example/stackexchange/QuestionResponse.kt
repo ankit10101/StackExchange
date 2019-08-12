@@ -1,6 +1,7 @@
 package com.example.stackexchange
 
 import java.util.*
+
 //Model Class for Question Response from API
 class QuestionResponse(var items: ArrayList<Question>)
 
@@ -13,7 +14,8 @@ class Question(
     var last_activity_date: Long,
     var score: Int,
     var view_count: Int,
-    var owner: Owner
+    var owner: Owner,
+    var question_id: Int
 )
 
 class Owner(

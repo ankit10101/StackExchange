@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_question.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import android.os.Bundle
 
 // Custom QuestionAdapter for displaying list of questions in the recycler view
 class QuestionAdapter(private val questions: List<Question>) : RecyclerView.Adapter<QuestionAdapter.QuestionHolder>() {

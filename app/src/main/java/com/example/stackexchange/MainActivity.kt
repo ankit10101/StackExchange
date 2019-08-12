@@ -20,8 +20,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private val gson = Gson()
     val questionsList = ArrayList<Question>()
     val questionAdapter = QuestionAdapter(questionsList)
-    lateinit var spinnerItem: String
-    lateinit var tag: String
+    private lateinit var spinnerItem: String
+    private lateinit var tag: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
